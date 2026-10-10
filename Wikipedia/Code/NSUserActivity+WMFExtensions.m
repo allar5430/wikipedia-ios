@@ -60,18 +60,7 @@ __attribute__((annotate("returns_localized_nsstring"))) static inline NSString *
 }
 
 + (instancetype)wmf_placesActivityWithURL:(NSURL *)activityURL {
-    NSURLComponents *components = [NSURLComponents componentsWithURL:activityURL resolvingAgainstBaseURL:NO];
-    NSURL *articleURL = nil;
-    for (NSURLQueryItem *item in components.queryItems) {
-        if ([item.name isEqualToString:@"WMFArticleURL"]) {
-            NSString *articleURLString = item.value;
-            articleURL = [NSURL URLWithString:articleURLString];
-            break;
-        }
-    }
-    NSUserActivity *activity = [self wmf_pageActivityWithName:@"Places"];
-    activity.webpageURL = articleURL;
-    return activity;
+    return [WMFPlacesActivityBuilder activityFromURL:activityURL];
 }
 
 // The page name stays "Explore": it is the activity type of Handoff and Spotlight activities that
